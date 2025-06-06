@@ -1,18 +1,15 @@
-import dotnev from 'dotenv'
+import dotnev from 'dotenv';
 
-dotnev.config()  ;
+dotnev.config();
 
-const config =  {
-    app : {
-        PORT : process.env.PORT 
-    } ,
+const config = {
+  app: {
+    PORT: process.env.PORT,
+  },
 
-    db : {
-        MONGODB_URI : process.env.MONGODB_URI
-    }
-}
+  db: {
+    MONGODB_URI: process.env.MONGODB_URI,
+  },
+};
 
-export default config ;
-
-
-
+export default config;
