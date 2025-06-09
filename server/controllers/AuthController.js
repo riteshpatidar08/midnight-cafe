@@ -1,6 +1,6 @@
 
 import User from '../models/user.js'
-
+import admin from 'firebase-admin'
 export const signup = (req,res) => {
     try {
         //req.body 
@@ -20,4 +20,11 @@ export const login = (req ,res) => {
     } catch (error) {
         
     }
+}
+
+export const authenticateGoogleLogin = async(req,res) => {
+  console.log(req.body)
+    const decoded = await admin.auth().verifyIdToken(idToken) ;
+    console.log(decoded)
+
 }
