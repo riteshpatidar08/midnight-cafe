@@ -6,10 +6,19 @@ import authRoutes from './routes/authRoutes.js';
 import admin from 'firebase-admin'
 const app = express();
 import dotenv from 'dotenv' ;
+import cors from 'cors'
+import connectMongodb from './config/db.js';
 app.use(express.json())
 app.use(cookieparser());
-dotenv.config()
 
+app.use(cors( {
+  credentials : true ,
+  origin : "http://localhost:5173",
+  methods : ['GET' , 'POST' , 'DELETE' , 'OPTIONS'] ,
+  allowedHeaders : ['Content-Type' , 'Authorization' ,]
+}))
+dotenv.config()
+connectMongodb()
 
 
 const serviceAccount = {
