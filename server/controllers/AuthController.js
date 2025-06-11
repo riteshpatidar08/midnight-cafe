@@ -1,5 +1,6 @@
 import User from '../models/user.js';
 import admin from 'firebase-admin';
+
 export const signup = (req, res) => {
   try {
     //req.body
