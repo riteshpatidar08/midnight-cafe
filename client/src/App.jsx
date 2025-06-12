@@ -8,6 +8,8 @@ import Dashboard from './pages/Dashboard.jsx';
 import ProtectRoutes from './components/ProtectRoutes.jsx';
 import Login from './pages/Login.jsx';
 import OpenRoutes from './components/OpenRoutes.jsx';
+import { Button } from './components/ui/button.js';
+
 
 function App() {
   const signInWithGoogle = async () => {
