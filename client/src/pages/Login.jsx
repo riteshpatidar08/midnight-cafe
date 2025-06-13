@@ -10,18 +10,19 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Coffee, Moon, Star, Sparkles } from 'lucide-react';
-
-
+import { login, signup } from '../redux/features/AuthSlice';
+import { useDispatch } from 'react-redux';
 const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    phone :'' ,
     password: '',
     confirmPassword: '',
   });
- 
-
+  const dispatch = useDispatch();
+console.log(isLogin)
   const handleInputChange = (e) => {
     setFormData((prev) => ({
       ...prev,
@@ -29,19 +30,22 @@ const Login = () => {
     }));
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!isLogin && formData.password !== formData.confirmPassword) {
-  
-      return;
-    }
-
     const action = isLogin ? 'signed in' : 'registered';
-   
-    
+
+    isLogin ? dispatch(login(formData)) : dispatch(signup(formData));
 
     console.log(`${action} with:`, formData);
+
+    setFormData({
+      name: '',
+      email: '',
+      password: '',
+      phone : '',
+      confirmPassword: '',
+    });
   };
 
   const toggleMode = () => {
@@ -50,6 +54,7 @@ const Login = () => {
       name: '',
       email: '',
       password: '',
+      phone : '' ,
       confirmPassword: '',
     });
   };
@@ -146,21 +151,25 @@ const Login = () => {
             </div>
 
             {!isLogin && (
-            <div className="space-y-2">
-              <Label htmlFor="phoneNumber" className="text-foreground font-medium">
-             Phone Number
-              </Label>
-              <Input
-                id="email"
-                name="email"
-                type="email"
-                placeholder="Enter your email"
-                value={formData.email}
-                onChange={handleInputChange}
-                required
-                className="bg-input/50 border-border/50 focus:border-primary/50 focus:ring-primary/20 transition-all duration-300"
-              />
-            </div> )}
+              <div className="space-y-2">
+                <Label
+                  htmlFor="phoneNumber"
+                  className="text-foreground font-medium"
+                >
+                  Phone Number
+                </Label>
+                <Input
+                  id="phone"
+                  name="phone"
+                  type="number"
+                  placeholder="Enter your email"
+                  value={formData.phone}
+                  onChange={handleInputChange}
+                  required
+                  className="bg-input/50 border-border/50 focus:border-primary/50 focus:ring-primary/20 transition-all duration-300"
+                />
+              </div>
+            )}
 
             <div className="space-y-2">
               <Label htmlFor="password" className="text-foreground font-medium">
@@ -204,6 +213,12 @@ const Login = () => {
               className="w-full bg-gradient-to-r from-primary to-cafe-gold hover:from-primary/80 hover:to-cafe-gold/80 text-primary-foreground font-semibold py-3 transition-all duration-300 transform hover:scale-105 shadow-lg"
             >
               {isLogin ? 'Sign In' : 'Create Account'}
+            </Button>
+            <Button
+              type="submit"
+              className="w-full bg-gradient-to-r from-primary to-cafe-gold hover:from-primary/80 hover:to-cafe-gold/80 text-primary-foreground font-semibold py-3 transition-all duration-300 transform hover:scale-105 shadow-lg"
+            >
+              Sign In With Google
             </Button>
 
             <div className="text-center">

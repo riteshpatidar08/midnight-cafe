@@ -1,12 +1,12 @@
 import { response } from 'express';
 import User from '../models/user.js';
 import admin from 'firebase-admin';
-import bcrypt from 'bcrypt';
+import bcrypt, { hash } from 'bcrypt';
 import jwt from 'jsonwebtoken';
 export const signup = async (req, res) => {
   try {
     const { name, email, password, phone } = req.body;
-
+    console.log(password);
     const user = await User.findOne({ email });
 
     if (user) {
@@ -16,12 +16,12 @@ export const signup = async (req, res) => {
     }
 
     const hashPassword = await bcrypt.hash(password, 10);
-
+    console.log(hashPassword);
     const userData = {
       email,
       name,
       phone,
-      hashPassword,
+      password: hashPassword,
     };
     const newUser = await User.create(userData);
 
@@ -35,11 +35,13 @@ export const signup = async (req, res) => {
 export const login = async (req, res) => {
   try {
     //req.body
+    console.log(req.body);
     const { email, password } = req.body;
     //password hash bcrypt.compare
 
     const user = await User.findOne({ email });
 
+    console.log(user);
     if (!user) {
       res.status(404).json({
         message: 'Account not created , Please register and try again',
@@ -47,7 +49,7 @@ export const login = async (req, res) => {
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
-
+    console.log(isMatch);
     if (!isMatch) {
       res.status(404).json({
         message: 'Password donot match',
@@ -62,15 +64,22 @@ export const login = async (req, res) => {
 
     res.cookie('token', token, {
       httpOnly: true,
+      maxAge: 900000,
     });
 
-    res.send('login successfull');
+    res.status(200).json({
+      user,
+    });
 
     //token genrate jwt
     //res.cookie
   } catch (error) {}
 };
 
+export const verifyUser = async (req, res) => {
+  try {
+  } catch (error) {}
+};
 export const authenticateGoogleLogin = async (req, res) => {
   try {
     const { idToken } = req.body;
