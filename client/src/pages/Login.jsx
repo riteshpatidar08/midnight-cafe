@@ -12,6 +12,7 @@ import { Label } from '@/components/ui/label';
 import { Coffee, Moon, Star, Sparkles } from 'lucide-react';
 import { login, signup } from '../redux/features/AuthSlice';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
@@ -21,6 +22,7 @@ const Login = () => {
     password: '',
     confirmPassword: '',
   });
+  const navigate = useNavigate() ;
   const dispatch = useDispatch();
 console.log(isLogin)
   const handleInputChange = (e) => {
@@ -35,7 +37,9 @@ console.log(isLogin)
 
     const action = isLogin ? 'signed in' : 'registered';
 
-    isLogin ? dispatch(login(formData)) : dispatch(signup(formData));
+    isLogin ? dispatch(login(formData)).unwrap().then(()=>{
+  navigate('/')
+    }) : dispatch(signup(formData));
 
     console.log(`${action} with:`, formData);
 

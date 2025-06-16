@@ -1,4 +1,3 @@
-import { response } from 'express';
 import User from '../models/user.js';
 import admin from 'firebase-admin';
 import bcrypt, { hash } from 'bcrypt';
@@ -41,7 +40,6 @@ export const login = async (req, res) => {
 
     const user = await User.findOne({ email });
 
-    console.log(user);
     if (!user) {
       res.status(404).json({
         message: 'Account not created , Please register and try again',
@@ -57,7 +55,7 @@ export const login = async (req, res) => {
     }
 
     const token = jwt.sign(
-      { id: user._id, name: user.name, role: user.role },
+      { id: user._id, name: user.name, email:user.email, role: user.role },
       'hello_string',
       { expiresIn: '1d' }
     );
@@ -68,7 +66,7 @@ export const login = async (req, res) => {
     });
 
     res.status(200).json({
-      user,
+      message  :"success"
     });
 
     //token genrate jwt
@@ -78,8 +76,24 @@ export const login = async (req, res) => {
 
 export const verifyUser = async (req, res) => {
   try {
+    console.log('dummy', req.user);
+    if (!req.user) {
+      return res.status(401).json({
+        authenticated: false,
+        message: 'Unauthorized',
+      });
+    }
+
+    res.status(200).json({
+      authenticated: true,
+      id: req.user.id,
+      email: req.user.email,
+      name: req.user.name,
+      role : req.user.role
+    });
   } catch (error) {}
 };
+
 export const authenticateGoogleLogin = async (req, res) => {
   try {
     const { idToken } = req.body;

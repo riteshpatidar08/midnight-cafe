@@ -38,8 +38,9 @@ function App() {
           <Route path="/login" element={<Login />} />
         </Route>
 
-        <Route path="/" element={<Hompage />} />
+        
         <Route element={<ProtectRoutes role={['admin', 'customer']} />}>
+        <Route path="/" element={<Hompage />} />
           <Route path="/dashboard" element={<Dashboard />} />
         </Route>
       </Routes>

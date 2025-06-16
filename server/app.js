@@ -1,18 +1,35 @@
 //middleware
 //routing
 import express from 'express';
-import cookieparser from 'cookie-parser';
+
 import authRoutes from './routes/authRoutes.js';
 import admin from 'firebase-admin';
 const app = express();
 import dotenv from 'dotenv';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
+
 import connectMongodb from './config/db.js';
-app.use(cookieparser());
+app.use(cookieParser());
 app.use(express.json());
 
-//used to parse the cookie from req
+// const bypassCORS = (req, res, next) => {
+//   res.header('Access-Control-Allow-Origin', '*');
+//   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+//   res.header(
+//     'Access-Control-Allow-Headers',
+//     'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+//   );
 
+//   if (req.method === 'OPTIONS') {
+//     return res.sendStatus(200);
+//   }
+
+//   next();
+// };
+
+// Use the middleware
+// app.use(bypassCORS);
 app.use(
   cors({
     credentials: true,

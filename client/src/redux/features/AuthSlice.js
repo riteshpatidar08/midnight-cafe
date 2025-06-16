@@ -1,9 +1,15 @@
+import { setCookie } from './../../../utils/utils';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { linkWithCredential } from 'firebase/auth';
+
 
 const initialState = {
   isLoading: false,
+  authenticated : false ,
+  name : null ,
+  id : null ,
+  role : null
+
 };
 
 export const login = createAsyncThunk('loginAuth', async (data) => {
@@ -16,14 +22,19 @@ export const login = createAsyncThunk('loginAuth', async (data) => {
       }
     );
 
-    const verifyres = await axios.post(
-      'http://localhost:3000/api/auth/verify',
-      {
-        withCredentials: true,
-      }
-    );
-    return response.data;
+    const verifyres = await fetch( 'http://localhost:3000/api/auth/verify', {
+      method :'POST' ,
+      credentials : 'include'
+    })
+
+    const  dataa = await verifyres.json()
+     
+     console.log(dataa)
+    
+    return { ...response.data, ...dataa };
   } catch (error) {}
+
+
 });
 export const signup = createAsyncThunk('signAuth', async (data) => {
   try {
@@ -43,6 +54,15 @@ const AuthSlice = createSlice({
       })
       .addCase(login.fulfilled, (state, action) => {
         console.log(action.payload);
+        state.authenticated = action.payload.authenticated ;
+        state.name = action.payload.name ;
+        state.id = action.payload.id ;
+        state.role =  action.payload.role ;
+        setCookie('name' , action.payload.name)
+        setCookie('id' , action.payload.id)
+        setCookie('authenticated' , action.payload.authenticated)
+        setCookie('role' , action.payload.role)
+
       })
       .addCase(signup.pending, (state) => {
         state.isLoading = true;
