@@ -38,7 +38,7 @@ console.log(isLogin)
     const action = isLogin ? 'signed in' : 'registered';
 
     isLogin ? dispatch(login(formData)).unwrap().then(()=>{
-  navigate('/')
+  navigate('/menu')
     }) : dispatch(signup(formData));
 
     console.log(`${action} with:`, formData);

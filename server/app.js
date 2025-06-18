@@ -8,7 +8,7 @@ const app = express();
 import dotenv from 'dotenv';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-
+import CartRoutes from './routes/cartRoutes.js'
 import connectMongodb from './config/db.js';
 app.use(cookieParser());
 app.use(express.json());
@@ -59,7 +59,7 @@ admin.initializeApp({
 });
 
 app.use('/api/auth', authRoutes);
-
+app.use('/api' ,CartRoutes )
 //health check
 app.get('/health', (req, res) => {
   res.send('server is running');

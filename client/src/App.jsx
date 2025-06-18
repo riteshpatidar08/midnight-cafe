@@ -9,7 +9,7 @@ import ProtectRoutes from './components/ProtectRoutes.jsx';
 import Login from './pages/Login.jsx';
 import OpenRoutes from './components/OpenRoutes.jsx';
 import { Button } from './components/ui/button.js';
-
+import Menu from './pages/Menu.jsx';
 
 function App() {
   const signInWithGoogle = async () => {
@@ -35,12 +35,15 @@ function App() {
 
       <Routes>
         <Route element={<OpenRoutes />}>
+          <Route path="/" element={<Hompage />} />
           <Route path="/login" element={<Login />} />
         </Route>
 
-        
-        <Route element={<ProtectRoutes role={['admin', 'customer']} />}>
-        <Route path="/" element={<Hompage />} />
+        <Route element={<ProtectRoutes roles={['admin', 'customer']} />}>
+          <Route path="/menu" element={<Menu />} />
+        </Route>
+
+        <Route element={<ProtectRoutes roles={['admin']} />}>
           <Route path="/dashboard" element={<Dashboard />} />
         </Route>
       </Routes>

@@ -1,18 +1,18 @@
 import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import Navbar from './Navbar';
+import { getCookie } from './../../utils/utils.js';
 
-function ProtectRoutes({ role }) {
-  const token = 'lfdskfjjwlerjewkrjwkj';
-  const roleFromBackend = 'customer';
 
-  console.log(role);
+function ProtectRoutes({ roles }) {
+ const isAuthenticated = getCookie('authenticated')
+ const role = getCookie('role')
 
-  if (!token) {
+  if (!isAuthenticated) {
     return <Navigate to="/login" />;
   }
 
-  if (!role.includes(roleFromBackend)) {
+  if (!roles.includes(role)) {
     return <Navigate to="/login" />;
   }
 
