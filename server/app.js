@@ -8,8 +8,11 @@ const app = express();
 import dotenv from 'dotenv';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import CartRoutes from './routes/cartRoutes.js'
+import CartRoutes from './routes/cartRoutes.js';
 import connectMongodb from './config/db.js';
+
+import Product from './models/product.js';
+
 app.use(cookieParser());
 app.use(express.json());
 
@@ -54,15 +57,35 @@ const serviceAccount = {
   universe_domain: process.env.UNIVERSE_DOMAIN,
 };
 
+// async function populateRowData() {
+//   const product = await Product.create(data);
+//   console.log(product);
+// }
+
+// const data = {
+//   name: 'Cappuccino',
+//   description: 'Rich espresso with steamed milk and foam',
+//   category: 'coffee',
+//   price: 120,
+// };
+
+// populateRowData(data)
+
+
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
 });
 
 app.use('/api/auth', authRoutes);
-app.use('/api' ,CartRoutes )
+app.use('/api', CartRoutes);
 //health check
 app.get('/health', (req, res) => {
   res.send('server is running');
 });
 
 export default app;
+
+
+
+
+

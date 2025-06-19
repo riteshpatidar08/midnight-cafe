@@ -49,11 +49,11 @@ const productSchema = new mongoose.Schema({
       name: {
         type: String,
         enum: ['small', 'medium', 'large', 'extra-large'],
-        required: true,
+      
       },
       price: {
         type: Number,
-        requied: true,
+    
         min: 0,
       },
     },
@@ -74,3 +74,6 @@ const productSchema = new mongoose.Schema({
 });
 
 const Product = mongoose.model('Product', productSchema);
+
+
+export default Product
