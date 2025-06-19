@@ -61,3 +61,5 @@ export const getCart = async (req, res) => {
 //NOTE clearCart => userId and findByidAndDelete
 //NOTE increaseQuantity => cart.items.quantity +1 , calculate totalprice
 //NOTE descreaseQuantity => cart.items.quantity -1 , calculate price
+
+// https://github.com/riteshpatidar08/midnight-cafe-bloom
