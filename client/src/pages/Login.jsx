@@ -13,18 +13,19 @@ import { Coffee, Moon, Star, Sparkles } from 'lucide-react';
 import { login, signup } from '../redux/features/AuthSlice';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { signInWithGoogle } from '../redux/features/AuthSlice';
 const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    phone :'' ,
+    phone: '',
     password: '',
     confirmPassword: '',
   });
-  const navigate = useNavigate() ;
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-console.log(isLogin)
+  console.log(isLogin);
   const handleInputChange = (e) => {
     setFormData((prev) => ({
       ...prev,
@@ -32,14 +33,25 @@ console.log(isLogin)
     }));
   };
 
+  const handleLoginWithGoogle = () => {
+    dispatch(signInWithGoogle())
+      .unwrap()
+      .then(() => {
+        navigate('/menu');
+      });
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
 
     const action = isLogin ? 'signed in' : 'registered';
 
-    isLogin ? dispatch(login(formData)).unwrap().then(()=>{
-  navigate('/menu')
-    }) : dispatch(signup(formData));
+    isLogin
+      ? dispatch(login(formData))
+          .unwrap()
+          .then(() => {
+            navigate('/menu');
+          })
+      : dispatch(signup(formData));
 
     console.log(`${action} with:`, formData);
 
@@ -47,7 +59,7 @@ console.log(isLogin)
       name: '',
       email: '',
       password: '',
-      phone : '',
+      phone: '',
       confirmPassword: '',
     });
   };
@@ -58,7 +70,7 @@ console.log(isLogin)
       name: '',
       email: '',
       password: '',
-      phone : '' ,
+      phone: '',
       confirmPassword: '',
     });
   };
@@ -219,6 +231,7 @@ console.log(isLogin)
               {isLogin ? 'Sign In' : 'Create Account'}
             </Button>
             <Button
+              onClick={handleLoginWithGoogle}
               type="submit"
               className="w-full bg-gradient-to-r from-primary to-cafe-gold hover:from-primary/80 hover:to-cafe-gold/80 text-primary-foreground font-semibold py-3 transition-all duration-300 transform hover:scale-105 shadow-lg"
             >

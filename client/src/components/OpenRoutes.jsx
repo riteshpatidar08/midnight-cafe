@@ -1,11 +1,12 @@
+import { getCookie } from './../../utils/utils.js';
 import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 function OpenRoutes() {
+  
+  const isAuthenticated = getCookie('authenticated');
 
-  const token = null
-
-  if (token) {
-    return <Navigate to="/" />;
+  if (isAuthenticated) {
+    return <Navigate to="/menu" />;
   }
 
   return (

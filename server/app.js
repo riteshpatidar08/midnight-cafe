@@ -16,20 +16,21 @@ import Product from './models/product.js';
 app.use(cookieParser());
 app.use(express.json());
 
-// const bypassCORS = (req, res, next) => {
-//   res.header('Access-Control-Allow-Origin', '*');
-//   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-//   res.header(
-//     'Access-Control-Allow-Headers',
-//     'Origin, X-Requested-With, Content-Type, Accept, Authorization'
-//   );
+const bypassCORS = (req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Cross-Origin-Embedder-Policy', 'unsafe-none')
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+  );
 
-//   if (req.method === 'OPTIONS') {
-//     return res.sendStatus(200);
-//   }
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(200);
+  }
 
-//   next();
-// };
+  next();
+};
 
 // Use the middleware
 // app.use(bypassCORS);

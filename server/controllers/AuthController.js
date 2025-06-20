@@ -55,7 +55,7 @@ export const login = async (req, res) => {
     }
 
     const token = jwt.sign(
-      { id: user._id, name: user.name, email:user.email, role: user.role },
+      { id: user._id, name: user.name, email: user.email, role: user.role },
       'hello_string',
       { expiresIn: '1d' }
     );
@@ -66,7 +66,7 @@ export const login = async (req, res) => {
     });
 
     res.status(200).json({
-      message  :"success"
+      message: 'success',
     });
 
     //token genrate jwt
@@ -89,7 +89,7 @@ export const verifyUser = async (req, res) => {
       id: req.user.id,
       email: req.user.email,
       name: req.user.name,
-      role : req.user.role
+      role: req.user.role,
     });
   } catch (error) {}
 };
@@ -109,8 +109,26 @@ export const authenticateGoogleLogin = async (req, res) => {
       });
       await user.save();
     }
+
+    const token = jwt.sign(
+      { id: user._id, name: user.name, email: user.email, role: user.role },
+      'hello_string',
+      { expiresIn: '1d' }
+    );
+
+    res.cookie('token', token, {
+      httpOnly: true,
+      maxAge: 900000,
+    });
+
+    res.status(200).json({
+      authenticated : true ,
+      id : user._id ,
+      email : user.email ,
+      name : user.name,
+      role : user.role
+    })
+
     console.log(user);
   } catch (error) {}
 };
-
-

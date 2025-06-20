@@ -57,6 +57,35 @@ export const getCart = async (req, res) => {
   } catch (error) {}
 };
 
+export const removeItemFromCart = async (req, res) => {
+  try {
+    const { userId, productId } = req.body;
+    const cart = await Cart.findOne({ userId });
+    console.log(cart);
+    const product = await Product.findById(productId);
+console.log(product)
+    // if(!cart){
+
+    // }
+
+    // if(!product){
+
+    // }
+
+    cart.items = cart.items.filter(
+      (item) => item.productId.toString() !== productId
+    );
+
+    cart.totalPrice = cart.items.reduce(
+      (acc, item) => acc + item.quantity * product.price
+,0);
+    await cart.save();
+    console.log(cart)
+    res.status(200).json({
+      message: 'item remove from cart',
+    });
+  } catch (error) {}
+};
 //NOTE removeItemFromCart => productId , cart.items and calculate price once again
 //NOTE clearCart => userId and findByidAndDelete
 //NOTE increaseQuantity => cart.items.quantity +1 , calculate totalprice
